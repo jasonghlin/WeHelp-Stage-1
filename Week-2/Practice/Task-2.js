@@ -1,4 +1,7 @@
 // your code here, maybe
+// O(duration + i) + O(#consultants * #booking * k) + O(#available_consultants) + O(#consultants)
+// O(n) + O(k*m*n) + O(n) + O(n)
+// O(n^3)
 function book(consultants, hour, duration, criteria) {
   let booking = Array(duration + 1)
     .fill()

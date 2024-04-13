@@ -1,5 +1,8 @@
 "use strict";
 
+// O(#message + #mrstations)
+// O(m+n)
+// O(n)
 function findAndPrint(messages, currentStation) {
   // your code here
   const green_line = [
@@ -58,7 +61,10 @@ function findAndPrint(messages, currentStation) {
       station === "Xiaobitan"
         ? Math.abs(index - currentStationIndex) + 1
         : Math.abs(index - currentStationIndex);
-    if (length < minLength) {
+    if (station === "Xiaobitan" && currentStation == "Xiaobitan") {
+      minLength = 0;
+      minIndex = i;
+    } else if (length < minLength) {
       minLength = length;
       minIndex = i;
     }
@@ -73,6 +79,7 @@ const messages = {
   Copper: "I just saw a concert at Taipei Arena.",
   Leslie: "I'm at home near Xiaobitan station.",
   Vivian: "I'm at Xindian station waiting for you.",
+  test: "I'm at Qizhang station",
 };
 
 findAndPrint(messages, "Wanlong"); // print Mary
@@ -80,5 +87,6 @@ findAndPrint(messages, "Songshan"); // print Copper
 findAndPrint(messages, "Qizhang"); // print Leslie
 findAndPrint(messages, "Ximen"); // print Bob
 findAndPrint(messages, "Xindian City Hall"); // print Vivian
+findAndPrint(messages, "Xiaobitan");
 
 // Regrex 提取捷運站名稱
