@@ -123,7 +123,7 @@ const pageCount = Math.ceil(cardLimit / cardIncrease);
 
 let currentPage = 1;
 // load more btn
-let loadMoreButton = document.querySelector(".loadBtn");
+
 try {
   data = await getData();
   title_figure_data = data.data.results.map((el) => {
@@ -137,6 +137,9 @@ try {
   // set card status
   cardLimit = title_figure_data.length;
   cardIncrease = 10;
+
+  // select loadBtn
+  let loadMoreButton = document.querySelector(".loadBtn");
 
   // create card
   let containerBox = document.querySelector(".container");

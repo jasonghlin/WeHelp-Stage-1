@@ -3,9 +3,13 @@ URL =
   "https://padax.github.io/taipei-day-trip-resources/taipei-attractions-assignment-1";
 
 async function getData() {
-  let response = await fetch(URL);
-  // console.log(response);
-  return await response.json();
+  try {
+    let response = await fetch(URL);
+    // console.log(response);
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
 }
 
 function loadPromotion(containerBox, title_figure_data) {
@@ -112,19 +116,18 @@ function addCards(pageIndex, containerBox) {
   }
   handleButtonStatus();
 }
-
 let data;
 // set card status
 let title_figure_data;
 let cardLimit;
 let cardIncrease;
-// page limit
-const pageCount = Math.ceil(cardLimit / cardIncrease);
+let currentPage;
+let pageCount;
+let loadMoreButton;
 
-let currentPage = 1;
-// load more btn
-let loadMoreButton = document.querySelector(".loadBtn");
-try {
+async function init() {
+  // page limit
+
   data = await getData();
   title_figure_data = data.data.results.map((el) => {
     return {
@@ -132,7 +135,13 @@ try {
       figure: "https://" + el.filelist.split("https://")[1],
     };
   });
-  console.log(title_figure_data);
+  // console.log(title_figure_data);
+
+  pageCount = Math.ceil(cardLimit / cardIncrease);
+
+  currentPage = 1;
+  // load more btn
+  loadMoreButton = document.querySelector(".loadBtn");
 
   // set card status
   cardLimit = title_figure_data.length;
@@ -141,31 +150,29 @@ try {
   // create card
   let containerBox = document.querySelector(".container");
   loadPromotion(containerBox, title_figure_data);
-
+  addCards(currentPage, containerBox);
   // load initial cards
   // window.onload = function () {
   //   addCards(currentPage, containerBox);
   // };
 
   // handle load more
-  window.onload = function () {
-    addCards(currentPage, containerBox);
-    loadMoreButton.addEventListener("click", () => {
-      addCards(currentPage + 1, containerBox);
-    });
-  };
-} catch (err) {
-  console.log(err);
+
+  loadMoreButton.addEventListener("click", () => {
+    addCards(currentPage + 1, containerBox);
+  });
+
+  const menubar = document.querySelector(".menu");
+  const sidebar = document.querySelector(".sidebar");
+  const exit = document.querySelector(".exit");
+
+  menubar.addEventListener("click", () => {
+    sidebar.style.display = "flex";
+  });
+
+  exit.addEventListener("click", () => {
+    sidebar.style.display = "none";
+  });
 }
 
-const menubar = document.querySelector(".menu");
-const sidebar = document.querySelector(".sidebar");
-const exit = document.querySelector(".exit");
-
-menubar.addEventListener("click", () => {
-  sidebar.style.display = "flex";
-});
-
-exit.addEventListener("click", () => {
-  sidebar.style.display = "none";
-});
+window.onload = init;

@@ -23,9 +23,10 @@ def get_data(url):
     # 進入每一頁當中的每個 po 文
     for title in titles:
         article_dict = {}
-        # print(title)
+        
         # print("------------")
         if title.a != None:
+            # print(title)
             URL_NEXT = "https://www.ptt.cc" + title.a["href"]
             # print(URL_NEXT)
             requestObj_2 = request.Request(URL_NEXT, headers = {
