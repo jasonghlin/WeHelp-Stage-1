@@ -50,7 +50,11 @@ function loadPromotion(containerBox, title_figure_data) {
 function loadTitle(containerBox, title_figure_data, startIndex, endIndex) {
   for (let i = startIndex; i < endIndex; i++) {
     let titleDivContainer = document.createElement("div");
-    titleDivContainer.className = `title title-${(i % 10) + 1}`;
+    if (i == 8 || i == 9) {
+      titleDivContainer.className = `title`;
+    } else {
+      titleDivContainer.className = `title title-${(i % 10) + 1}`;
+    }
 
     let img = document.createElement("img");
     img.src = title_figure_data[i].figure;

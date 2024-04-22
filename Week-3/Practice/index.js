@@ -1,12 +1,11 @@
 "use strict";
+
 URL =
   "https://padax.github.io/taipei-day-trip-resources/taipei-attractions-assignment-1";
 
-async function getData() {
-  let response = await fetch(URL);
-  // console.log(response);
-  return await response.json();
-}
+let response = await fetch(URL);
+// console.log(response);
+let data = await response.json();
 
 function loadPromotion(containerBox, title_figure_data) {
   for (let i = 0; i < 3; i++) {
@@ -113,7 +112,6 @@ function addCards(pageIndex, containerBox) {
   handleButtonStatus();
 }
 
-let data;
 // set card status
 let title_figure_data;
 let cardLimit;
@@ -124,42 +122,35 @@ const pageCount = Math.ceil(cardLimit / cardIncrease);
 let currentPage = 1;
 // load more btn
 
-try {
-  data = await getData();
-  title_figure_data = data.data.results.map((el) => {
-    return {
-      title: el.stitle,
-      figure: "https://" + el.filelist.split("https://")[1],
-    };
-  });
-  console.log(title_figure_data);
-
-  // set card status
-  cardLimit = title_figure_data.length;
-  cardIncrease = 10;
-
-  // select loadBtn
-  let loadMoreButton = document.querySelector(".loadBtn");
-
-  // create card
-  let containerBox = document.querySelector(".container");
-  loadPromotion(containerBox, title_figure_data);
-
-  // load initial cards
-  // window.onload = function () {
-  //   addCards(currentPage, containerBox);
-  // };
-
-  // handle load more
-  window.onload = function () {
-    addCards(currentPage, containerBox);
-    loadMoreButton.addEventListener("click", () => {
-      addCards(currentPage + 1, containerBox);
-    });
+title_figure_data = data.data.results.map((el) => {
+  return {
+    title: el.stitle,
+    figure: "https://" + el.filelist.split("https://")[1],
   };
-} catch (err) {
-  console.log(err);
-}
+});
+console.log(title_figure_data);
+
+// set card status
+cardLimit = title_figure_data.length;
+cardIncrease = 10;
+
+// select loadBtn
+let loadMoreButton = document.querySelector(".loadBtn");
+
+// create card
+let containerBox = document.querySelector(".container");
+loadPromotion(containerBox, title_figure_data);
+addCards(currentPage, containerBox);
+// load initial cards
+// window.onload = function () {
+//   addCards(currentPage, containerBox);
+// };
+
+// handle load more
+
+loadMoreButton.addEventListener("click", () => {
+  addCards(currentPage + 1, containerBox);
+});
 
 const menubar = document.querySelector(".menu");
 const sidebar = document.querySelector(".sidebar");

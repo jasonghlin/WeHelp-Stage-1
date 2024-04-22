@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>會員登入系統</title>
+    <link href="{{ url_for('static', path='/app.css') }}" rel="stylesheet">
+    <!-- <link rel="stylesheet" href="../static/Task-1.css"> -->
+</head>
+
+<body>
+    <!-- Header -->
+    <div class="header">歡迎光臨，請輸入帳號密碼</div>
+    <div class="login-container">
+        <div class="login-label">登入系統</div>
+
+        <form action="{{ url_for('signin') }}" class="login-form" method="post">
+            <div class="account">
+                <label for="">帳號</label>
+                <input type="text" name="username">
+            </div>
+            <div class="password">
+                <label for="">密碼</label>
+                <input type="text" name="password">
+            </div>
+
+            <div class="inform-consent">
+                <label for="">同意條款</label>
+                <input type="checkbox">
+            </div>
+            <button>登入</button>
+        </form>
+    </div>
+    <hr class="hr">
+    <div class="calculator">
+        <div class="calculate-label">計算正整數的平方</div>
+        <form action="{{ url_for('handle_calculator') }}" class="square-form" method="post">
+            <div>
+                <label class="positive-label">正整數</label>
+                <input type="text" class="square-input" name="squareInput">
+            </div>
+            <button>計算</button>
+        </form>
+    </div>
+
+    <script type="module" src="{{ url_for('static', path='/app.js') }}"></script>
+</body>
+
+</html>

@@ -1,5 +1,5 @@
 "use strict";
-URL =
+const URL =
   "https://padax.github.io/taipei-day-trip-resources/taipei-attractions-assignment-1";
 
 async function getData() {
