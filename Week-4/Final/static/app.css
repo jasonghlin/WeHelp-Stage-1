@@ -81,7 +81,7 @@ hr {
     width: 96%;               
     background-color:black;
     height: 1px;
-    margin-top: -5rem
+    margin-top: -8rem
 }
 
 .calculator{
@@ -89,7 +89,7 @@ hr {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-top: 2rem;
+    margin-top: 4rem;
 }
 
 .square-form{

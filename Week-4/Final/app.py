@@ -44,7 +44,7 @@ async def success(request: Request):
 
 
 @app.post("/signin", name="signin")
-# https://github.com/tiangolo/fastapi/issues/854
+
 async def login(request: Request, username: str = Form(None), password: str = Form(None)):
     print(request.session)
     user_data = User(username=username, password=password)
@@ -61,20 +61,10 @@ async def login(request: Request, username: str = Form(None), password: str = Fo
 @app.post("/signout", name="signout")
 async def signout(request: Request):
     print(request.session)
-    # https://lctoan.medium.com/fastapi-by-a-python-beginner-5-5e0f0972d653
+    
     request.session.clear()
     print(request.session)
     return RedirectResponse(url="/", status_code=status.HTTP_303_SEE_OTHER)
-
-# @app.post("/signin", name="signin")
-# async def login(username: Annotated[str | None, Form()], password: Annotated[str | None, Form()]):
-#     user_data = User(username = username, password = password)
-#     print(user_data)
-#     if not username or not password:
-#         return RedirectResponse(url="/error?message=請輸入帳號、密碼", status_code=status.HTTP_303_SEE_OTHER)
-#     if user_data.username != "test" or user_data.password != "test":
-#         return RedirectResponse(url="/error?message=帳號、密碼輸入錯誤", status_code=status.HTTP_303_SEE_OTHER)
-#     return RedirectResponse(url="/member", status_code=status.HTTP_303_SEE_OTHER)
 
 
 # calculator
