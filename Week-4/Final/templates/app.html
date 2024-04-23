@@ -34,13 +34,12 @@
     <hr class="hr">
     <div class="calculator">
         <div class="calculate-label">計算正整數的平方</div>
-        <form action="{{ url_for('handle_calculator') }}" class="square-form" method="post">
-            <div>
-                <label class="positive-label">正整數</label>
-                <input type="text" class="square-input" name="squareInput">
-            </div>
-            <button>計算</button>
-        </form>
+
+        <div>
+            <label class="positive-label">正整數</label>
+            <input type="text" class="square-input" name="squareInput">
+        </div>
+        <button class="calculate-btn">計算</button>
     </div>
 
     <script type="module" src="{{ url_for('static', path='/app.js') }}"></script>

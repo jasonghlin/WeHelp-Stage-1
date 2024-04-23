@@ -78,13 +78,14 @@ async def signout(request: Request):
 
 
 # calculator
+
 @app.get("/square/{num}", name="square_calculator")
 async def square_calculator(request: Request, num: int):
     result = num ** 2
     return templates.TemplateResponse("Calculator.html", {"request": request, "result": result})
 
 
-@app.post("/handle_square_form", name="handle_calculator")
-async def handle_square_form(squareInput: Annotated[int, Form()]):
-    num = int(squareInput)
-    return RedirectResponse(url=f"/square/{num}", status_code=status.HTTP_303_SEE_OTHER)
+# @app.post("/handle_square_form", name="handle_calculator")
+# async def handle_square_form(squareInput: Annotated[int, Form()]):
+#     num = int(squareInput)
+#     return RedirectResponse(url=f"/square/{num}", status_code=status.HTTP_303_SEE_OTHER)

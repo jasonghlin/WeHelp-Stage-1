@@ -5,17 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>會員登入系統</title>
-    <link href="{{ url_for('static', path='/Task-1.css') }}" rel="stylesheet">
-    <!-- <link rel="stylesheet" href="../static/Task-1.css"> -->
+    <link href="{{ url_for('static', path='/app.css') }}" rel="stylesheet">
 </head>
 
 <body>
     <!-- Header -->
-    <!-- 要追蹤使用者狀態 -->
     <div class="header">歡迎光臨，請輸入帳號密碼</div>
     <div class="login-container">
         <div class="login-label">登入系統</div>
-        <!-- https://stackoverflow.com/questions/74237542/how-to-navigate-through-fastapi-routes-by-clicking-on-html-button-in-jinja2-temp -->
+
         <form action="{{ url_for('signin') }}" class="login-form" method="post">
             <div class="account">
                 <label for="">帳號</label>
@@ -26,7 +24,6 @@
                 <input type="text" name="password">
             </div>
 
-            <!-- 從前端檢查 -->
             <div class="inform-consent">
                 <label for="">同意條款</label>
                 <input type="checkbox">
@@ -37,17 +34,16 @@
     <hr class="hr">
     <div class="calculator">
         <div class="calculate-label">計算正整數的平方</div>
-        <!-- <form class="square-form" method="get"> -->
-        <div>
-            <label class="positive-label">正整數</label>
-            <input type="text" class="square-input" name="num">
-        </div>
-        <button class="calculate-btn">計算</button>
-        <!-- </form> -->
+        <form action="{{ url_for('handle_calculator') }}" class="square-form" method="post">
+            <div>
+                <label class="positive-label">正整數</label>
+                <input type="text" class="square-input" name="squareInput">
+            </div>
+            <button>計算</button>
+        </form>
     </div>
-    <!-- 是不是正整數用前端確認 -->
 
-    <script type="module" src="{{ url_for('static', path='/Task-1.js') }}"></script>
+    <script type="module" src="{{ url_for('static', path='/app.js') }}"></script>
 </body>
 
 </html>

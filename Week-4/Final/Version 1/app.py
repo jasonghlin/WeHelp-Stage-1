@@ -48,17 +48,15 @@ async def success(request: Request):
 async def login(request: Request, username: str = Form(None), password: str = Form(None)):
     print(request.session)
     user_data = User(username=username, password=password)
+    if not user_data.username or not user_data.password:
+        return RedirectResponse(url="/error?message=請輸入帳號、密碼", status_code=status.HTTP_303_SEE_OTHER)
+    
+    if user_data.username != "test" or user_data.password != "test":
+        return RedirectResponse(url="/error?message=帳號、密碼輸入錯誤", status_code=status.HTTP_303_SEE_OTHER)
     
     if user_data.username == "test" or user_data.password == "test":
         request.session.update({"username": username})
         return RedirectResponse(url="/member", status_code=status.HTTP_303_SEE_OTHER)
-    elif not user_data.username or not user_data.password:
-        return RedirectResponse(url="/error?message=請輸入帳號、密碼", status_code=status.HTTP_303_SEE_OTHER)
-    else:
-        return RedirectResponse(url="/error?message=帳號、密碼輸入錯誤", status_code=status.HTTP_303_SEE_OTHER)
-        
-    
-    
 
 @app.post("/signout", name="signout")
 async def signout(request: Request):
@@ -75,3 +73,8 @@ async def square_calculator(request: Request, num: int):
     result = num ** 2
     return templates.TemplateResponse("Calculator.html", {"request": request, "result": result})
 
+
+@app.post("/handle_square_form", name="handle_calculator")
+async def handle_square_form(squareInput: Annotated[int, Form()]):
+    num = int(squareInput)
+    return RedirectResponse(url=f"/square/{num}", status_code=status.HTTP_303_SEE_OTHER)
