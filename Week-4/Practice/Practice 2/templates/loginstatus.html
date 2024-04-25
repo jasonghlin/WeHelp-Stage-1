@@ -1,0 +1,29 @@
+{% extends "header.html" %}
+
+{% block header %}
+{% if success_message is defined %}
+歡迎光臨，這是會員頁
+{% else %}
+失敗頁面
+{% endif %}
+{% endblock %}
+{% block main %}
+<main>
+    <div class="message">
+        {% if success_message is defined %}
+        {{success_message}}
+        {% else %}
+        {{failed_text}}
+        {% endif %}
+        <div>
+            <a href="/">
+                {% if success_message is defined %}
+                登出系統
+                {% else %}
+                返回首頁
+                {% endif %}
+            </a>
+        </div>
+    </div>
+</main>
+{% endblock %}

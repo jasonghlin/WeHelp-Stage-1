@@ -9,3 +9,49 @@ html {
     font-size: 62.5%;
 }
 
+.header {
+    height: 8rem;
+    background-color: #23303e;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+}
+
+.login-container{
+    text-align: center;
+}
+
+.login-label{
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    font-size: 2rem;
+}
+
+.username-wrapper > label{
+    font-size: 1.5rem
+}
+
+.password-wrapper > label{
+    font-size: 1.5rem
+}
+
+.inform-wrapper {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.inform-wrapper > label {
+    font-size: 1.5rem;
+    margin-right: .5rem;
+}
+
+.message{
+    text-align: center;
+    font-size: 1.7rem;
+    margin-top: 2rem;
+}

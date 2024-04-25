@@ -49,7 +49,7 @@ async def login(request: Request, username: str = Form(None), password: str = Fo
     print(request.session)
     user_data = User(username=username, password=password)
     
-    if user_data.username == "test" or user_data.password == "test":
+    if user_data.username == "test" and user_data.password == "test":
         request.session.update({"username": username})
         return RedirectResponse(url="/member", status_code=status.HTTP_303_SEE_OTHER)
     elif not user_data.username or not user_data.password:
