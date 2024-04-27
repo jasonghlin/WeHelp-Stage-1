@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Request, Form, Depends, HTTPException
+from fastapi import FastAPI, Request, Form, Depends, HTTPException, Response
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
@@ -8,8 +8,6 @@ from starlette.middleware.sessions import SessionMiddleware
 from fastapi.security import APIKeyCookie, HTTPBasicCredentials, HTTPBasic
 from typing import Annotated, Optional
 import random
-
-
 
 app = FastAPI()
 
@@ -54,6 +52,7 @@ def create_session(user_id: str):
     return session_id
 
 security = HTTPBasic()
+
 def authenticate_user(credentials: HTTPBasicCredentials = Depends(security)):
     user = users.get(credentials.username)
     if user is None or user["password"] != credentials.password:
@@ -64,6 +63,13 @@ def authenticate_user(credentials: HTTPBasicCredentials = Depends(security)):
         )
     return user
 
+def get_user_from_session_id(request: Request) -> str:
+        # 假設 session_id 存儲在名為 'session_id' 的 cookie 中
+        session_id = request.cookies.get('session_id')
+        if not session_id:
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Session ID missing from cookies")
+        
+        return users.get(session_id)
 # -------------------------------------------
 
 @app.get("/", response_class=HTMLResponse, name="home")
@@ -82,13 +88,14 @@ async def error_login(request: Request, message: str | None = None):
         return templates.TemplateResponse("loginstatus.html", {"request": request, "failed_text": message})
 
 
-# @app.get("/getusers/me")
-# def read_current_user(user: dict = Depends(get_user_from_session_id)):
-#     return user
+@app.get("/getusers/me")
+def read_current_user(user: dict = Depends(get_user_from_session_id)):
+    print(users)
+    return user
 
 
 @app.post("/signin", response_class=HTMLResponse)
-async def login(request: Request):
+async def login(request: Request, response: Response):
     form = LoginForm(request)
     await form.create_oauth_form()
     # print(request.query_params)
@@ -99,10 +106,10 @@ async def login(request: Request):
     if form.username == "test" and form.password == "test":
         credentials = HTTPBasicCredentials(username=form.username, password=form.password)
         user = authenticate_user(credentials)
-        print(user)
         session_id = create_session(user["user_id"])
-        print(session_id)
-        return RedirectResponse(url="/member", status_code=status.HTTP_302_FOUND)
+        response = RedirectResponse(url="/member", status_code=status.HTTP_302_FOUND)
+        response.set_cookie(key="session_id", value=session_id, httponly=False, max_age=300)
+        return response
     elif form.username == None and form.password == None:
         return RedirectResponse(url="/error?message=請輸入帳號、密碼", status_code=status.HTTP_302_FOUND)
     else:
