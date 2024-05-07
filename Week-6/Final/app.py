@@ -38,21 +38,11 @@ async def route_index(request: Request):
   
     
 @app.get("/member", name="member")
-async def success(request: Request):    
+async def success(request: Request): 
+    if not request.session.get("username", False):
+        return RedirectResponse(url="/")
+    
     mycursor = mydb.cursor()
-    query = ("SELECT name, username FROM member WHERE username = %s")
-    val=(request.session.get("username"), )
-    mycursor.execute(query, val)
-    myresult = mycursor.fetchall()
-    
-    if myresult == []:
-        return RedirectResponse(url="/")
-    
-    db_name, db_username = myresult[0]
-
-    if not (request.session.get("name") == db_name and request.session.get("username") == db_username):
-        return RedirectResponse(url="/")
-    
     message_query = ("SELECT message.id, name, message.content, message.time FROM member INNER JOIN message ON member.id = message.member_id ORDER BY message.time DESC" )
     mycursor.execute(message_query)
     mymessage_result = mycursor.fetchall()
@@ -78,7 +68,7 @@ async def create_user(request: Request, signup_name: str = Form(), signup_userna
     query = ("SELECT username FROM member WHERE username = %s")
     val = (signup_username,)
     mycursor.execute(query, val)
-    myresult = mycursor.fetchall()
+    myresult = mycursor.fetchone()
 
     if myresult != []:
         return RedirectResponse(url="/error?message=此帳號已被註冊", status_code=status.HTTP_303_SEE_OTHER)
@@ -98,7 +88,7 @@ async def login(request: Request, username: str = Form(), password: str = Form()
     query = ("SELECT id, name, username, password FROM member WHERE username = %s and password = %s")
     val=(username, password)
     mycursor.execute(query, val)
-    myresult = mycursor.fetchall()
+    myresult = mycursor.fetchone()
     
     if myresult == []:
         return RedirectResponse(url="/error?message=帳號、密碼輸入錯誤", status_code=status.HTTP_303_SEE_OTHER)
