@@ -63,7 +63,7 @@ async def success(request: Request):
     mymessage_result = mycursor.fetchall()
     # print(mymessage_result)
     mycursor.close()
-    return templates.TemplateResponse("loginstatus.html", {"request": request, "success_message": f"{request.session.get('name')}，歡迎登入系統", "messages": mymessage_result, "user": db_name})
+    return templates.TemplateResponse("loginstatus.html", {"request": request, "success_message": f"{request.session.get('name')}，歡迎登入系統", "messages": mymessage_result, "user": request.session.get("name")})
 
 
 @app.get("/error")
@@ -108,7 +108,7 @@ async def login(request: Request, username: str = Form(), password: str = Form()
     # print(myresult)
     if user == []:
         return RedirectResponse(url="/error?message=帳號、密碼輸入錯誤", status_code=status.HTTP_303_SEE_OTHER)
-    db_id, db_name, db_username, db_password = myresult[0]
+    db_id, db_name, db_username, db_password = user[0]
     request.session.update({"id": db_id, "name": db_name, "username": username})
     mycursor.close()
     return RedirectResponse(url="/member", status_code=status.HTTP_303_SEE_OTHER)

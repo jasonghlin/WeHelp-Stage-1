@@ -47,7 +47,7 @@ async def success(request: Request):
     mycursor.execute(message_query)
     message_results = mycursor.fetchall()
     mycursor.close()
-    return templates.TemplateResponse("loginstatus.html", {"request": request, "success_message": f"{request.session.get('name')}，歡迎登入系統", "messages": message_results, "user": request.session.get("username")})
+    return templates.TemplateResponse("loginstatus.html", {"request": request, "success_message": f"{request.session.get('name')}，歡迎登入系統", "messages": message_results, "user": request.session.get("name")})
 
 
 @app.get("/error")
