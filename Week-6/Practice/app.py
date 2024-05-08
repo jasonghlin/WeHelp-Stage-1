@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 import os
 from pydantic import BaseModel
 
-
+# async 版本：https://blogs.oracle.com/mysql/post/mysql-async-connectivity-with-connector-python
 app = FastAPI()
 
 app.add_middleware(SessionMiddleware, secret_key="some-random-string", session_cookie="session_id", max_age=300)

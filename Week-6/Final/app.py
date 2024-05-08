@@ -69,7 +69,6 @@ async def create_user(request: Request, signup_name: str = Form(), signup_userna
     val = (signup_username,)
     mycursor.execute(query, val)
     myresult = mycursor.fetchone()
-
     if myresult != []:
         return RedirectResponse(url="/error?message=此帳號已被註冊", status_code=status.HTTP_303_SEE_OTHER)
     
@@ -88,8 +87,7 @@ async def login(request: Request, username: str = Form(), password: str = Form()
     query = ("SELECT id, name, username, password FROM member WHERE username = %s and password = %s")
     val=(username, password)
     mycursor.execute(query, val)
-    myresult = mycursor.fetchone()
-    
+    myresult = mycursor.fetchone()    
     if myresult == []:
         return RedirectResponse(url="/error?message=帳號、密碼輸入錯誤", status_code=status.HTTP_303_SEE_OTHER)
     

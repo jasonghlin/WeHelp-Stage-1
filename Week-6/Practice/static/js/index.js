@@ -44,20 +44,22 @@ if (deleteBtns) {
   [...deleteBtns].forEach(function (button) {
     button.addEventListener("click", async () => {
       let messageId = button.closest(".message-with-btn").dataset.id;
-      try {
-        let response = await fetch("/deleteMessage", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ messageId }),
-        });
+      if (confirm("您確定要刪除留言嗎？") == true) {
+        try {
+          let response = await fetch("/deleteMessage", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ messageId }),
+          });
 
-        if (response.ok) {
-          window.location.href = "http://127.0.0.1:8000/member";
+          if (response.ok) {
+            window.location.href = "http://127.0.0.1:8000/member";
+          }
+        } catch (error) {
+          console.error(error);
         }
-      } catch (error) {
-        console.error(error);
       }
     });
   });
