@@ -149,6 +149,7 @@ html {
 
 .update-username-wrapper{
     text-align: center;
+    margin-bottom: 2rem;
 }
 
 .update-username-title {
@@ -158,5 +159,6 @@ html {
 }
 
 .update-username-result {
-    font-size: 2rem
+    font-size: 2rem;
+    margin-bottom: 2rem;
 }
