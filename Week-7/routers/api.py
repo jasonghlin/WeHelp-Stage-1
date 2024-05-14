@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Request
 from starlette import status
 from pydantic import BaseModel
-from database import get_user_info, update_username, get_all_user
+from database import get_user_info, update_name, get_all_user
 
 
 router = APIRouter(
@@ -11,18 +11,18 @@ router = APIRouter(
 
 
 
-class NewUserName(BaseModel):
+class NewName(BaseModel):
     name: str
 
-@router.get("/", status_code=status.HTTP_200_OK)
-async def get_users():
-     return get_all_user()
+# @router.get("/", status_code=status.HTTP_200_OK)
+# async def get_users():
+#      return get_all_user()
      
 
 @router.get("/member", status_code=status.HTTP_200_OK)
 async def get_username(request: Request, username: str):
     if not request.session:
-        response = {"Invalid": True}
+        response = {"data": None}
         return response
     else:
         user_info = get_user_info(username)
@@ -33,16 +33,12 @@ async def get_username(request: Request, username: str):
         return response
 
 @router.patch("/member", status_code=status.HTTP_200_OK)
-async def update_new_username(request: Request, new_username: NewUserName):
+async def update_new_name(request: Request, new_name: NewName):
     if not request.session:
-        response = {"Error": True}
+        response = {"error": True}
         return response
     else:
-        update_result = update_username(new_username.name, request.session.get("username"))
-        if not update_result:
-            response = {"Error": True}
-            return response
-        else:
-            request.session.update({"username": new_username.name})
-            response = {'OK': True}
-            return response
+        update_name(new_name.name, request.session.get("name"), request.session.get("id"))
+        request.session.update({"name": new_name.name})
+        response = {'ok': True}
+        return response

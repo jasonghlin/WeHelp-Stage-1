@@ -15,15 +15,15 @@
         {% else %}
         {{failed_text}}
         {% endif %}
-        <div>
-            <a href="/signout">
-                {% if success_message is defined %}
-                登出系統
-                {% else %}
-                返回首頁
-                {% endif %}
-            </a>
-        </div>
+    </div>
+    <div class="signout-wrapper">
+        <a href="/signout">
+            {% if success_message is defined %}
+            登出系統
+            {% else %}
+            返回首頁
+            {% endif %}
+        </a>
     </div>
     {% if success_message is defined %}
     <hr>
@@ -43,7 +43,7 @@
         <div class="message-with-btn" data-id={{message.0}}>
             <p><span class="message-name">{{message.1}}: </span><span class="message-content">{{message.2}}</span>
             </p>
-            {% if message.1 == user %}
+            {% if message.4 == userid %}
             <button class="delete-btn">X</button>
             {% endif %}
         </div>

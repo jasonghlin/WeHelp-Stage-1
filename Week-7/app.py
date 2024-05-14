@@ -44,11 +44,11 @@ async def success(request: Request):
         return RedirectResponse(url="/")
     
     mycursor = mydb.cursor()
-    message_query = ("SELECT message.id, name, message.content, message.time FROM member INNER JOIN message ON member.id = message.member_id ORDER BY message.time DESC" )
+    message_query = ("SELECT message.id, name, message.content, message.time, member_id FROM member INNER JOIN message ON member.id = message.member_id ORDER BY message.time DESC" )
     mycursor.execute(message_query)
     message_results = mycursor.fetchall()
     mycursor.close()
-    return templates.TemplateResponse("loginstatus.html", {"request": request, "success_message": f"{request.session.get('name')}，歡迎登入系統", "messages": message_results, "user": request.session.get("name")})
+    return templates.TemplateResponse("loginstatus.html", {"request": request, "success_message": f"{request.session.get('name')}，歡迎登入系統", "messages": message_results, "userid": request.session.get("id")})
 
 
 @app.get("/error")

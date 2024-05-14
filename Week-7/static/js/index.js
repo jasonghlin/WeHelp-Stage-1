@@ -93,12 +93,11 @@ if (queryUsernameBtn) {
           // console.log(data);
           if (data.data) {
             queryUsernameResult.innerHTML = `${data.data?.name} (${data.data?.username})`;
-          } else if (data.Invalid === true) {
-            queryUsernameResult.innerHTML = `查詢失敗`;
           } else {
             queryUsernameResult.innerHTML = `查無此人`;
           }
         }
+        queryUsername.value = "";
       } catch (error) {
         console.error(error);
       }
@@ -122,11 +121,11 @@ if (updateUsernameBtn) {
         });
         if (response.ok) {
           const json_data = await response.json();
-          if (json_data.OK === true) {
+          if (json_data.ok === true) {
             updateUsernameResult.innerHTML = `更新成功`;
 
             const welcomeText = document.querySelector(".welcome-text");
-            welcomeText.innerHTML = `${updateUsername.value}，歡迎登入系統
+            welcomeText.textContent = `${updateUsername.value}，歡迎登入系統
             `;
 
             // 選取全部的 .deletebtns，如果 session id === closest .message-with-btn .message-name 的 data-id，更新 .message-name
@@ -141,6 +140,7 @@ if (updateUsernameBtn) {
             updateUsernameResult.innerHTML = `更新失敗`;
           }
         }
+        updateUsername.value = "";
       } catch (error) {
         console.error(error);
       }

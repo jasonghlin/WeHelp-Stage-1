@@ -38,22 +38,17 @@ def get_user_info(username):
         db.close()
         db_connection.close()
 
-def update_username(new_username, username):
+def update_name(new_name, name, userid):
     db_connection = get_db_connection()
     try:
         db = db_connection.cursor(dictionary = True)
-        db.execute("SELECT * FROM member WHERE username = %s", (new_username,))
-        if db.fetchone():
-            print("Username already exists.")
-            return False
-        else:
-            user_update = ("UPDATE member SET username = %s WHERE username = %s")
-            val = (new_username, username)
-            db.execute(user_update, val)
-            print("SQL executed, affected rows:", db.rowcount)
-            db_connection.commit()
-            print("Transaction committed")
-            return True
+        user_update = ("UPDATE member SET name = %s WHERE name = %s AND id = %s")
+        val = (new_name, name, userid)
+        db.execute(user_update, val)
+        print("SQL executed, affected rows:", db.rowcount)
+        db_connection.commit()
+        print("Transaction committed")
+        return True
         
     except Exception as e:
         logging.error("Error when updating user info: %s", e, exc_info=True)
