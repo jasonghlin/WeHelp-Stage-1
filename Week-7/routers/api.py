@@ -38,7 +38,7 @@ async def update_new_name(request: Request, new_name: NewName):
         response = {"error": True}
         return response
     else:
-        update_name(new_name.name, request.session.get("name"), request.session.get("id"))
+        update_name(new_name.name, request.session.get("id"))
         request.session.update({"name": new_name.name})
         response = {'ok': True}
         return response

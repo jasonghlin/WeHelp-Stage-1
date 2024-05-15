@@ -38,12 +38,12 @@ def get_user_info(username):
         db.close()
         db_connection.close()
 
-def update_name(new_name, name, userid):
+def update_name(new_name, userid):
     db_connection = get_db_connection()
     try:
         db = db_connection.cursor(dictionary = True)
-        user_update = ("UPDATE member SET name = %s WHERE name = %s AND id = %s")
-        val = (new_name, name, userid)
+        user_update = ("UPDATE member SET name = %s WHERE id = %s")
+        val = (new_name, userid)
         db.execute(user_update, val)
         print("SQL executed, affected rows:", db.rowcount)
         db_connection.commit()
